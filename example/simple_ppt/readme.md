@@ -1,7 +1,3 @@
-# PPTT
-PowerPoint Template for python
-
-
 # How to use it?
 
 ## check your slide master schema
@@ -64,8 +60,3 @@ pptt make_schema master.pptx -o output.json
 ```shell script
 pptt make_ppt master.pptx clone.pptx -i slide.json
 ```
-
-# Change List
-- 0.0.1
-    - add cli version
-    - cli usecase example
