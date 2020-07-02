@@ -1,0 +1,92 @@
+{
+  "masters": [
+    {
+      "main": true,
+      "name": "",
+      "slides": [
+        {
+          "shapes": [
+            {
+              "is_placeholder": false,
+              "name": "background"
+            },
+            {
+              "is_placeholder": true,
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "is_placeholder": true,
+              "name": "subtitle",
+              "type": "text"
+            },
+            {
+              "is_placeholder": true,
+              "name": "date",
+              "type": "text"
+            }
+          ],
+          "name": "title slide"
+        },
+        {
+          "shapes": [
+            {
+              "is_placeholder": false,
+              "name": "background"
+            },
+            {
+              "is_placeholder": true,
+              "name": "chart",
+              "type": "text"
+            },
+            {
+              "is_placeholder": true,
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "is_placeholder": true,
+              "name": "text",
+              "type": "text"
+            },
+            {
+              "is_placeholder": true,
+              "name": "page-number",
+              "type": "text"
+            }
+          ],
+          "name": "chart placholder"
+        },
+        {
+          "shapes": [
+            {
+              "is_placeholder": false,
+              "name": "background"
+            },
+            {
+              "is_placeholder": true,
+              "name": "page-number",
+              "type": "text"
+            },
+            {
+              "is_placeholder": true,
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "is_placeholder": false,
+              "name": "chart",
+              "type": "chart"
+            },
+            {
+              "is_placeholder": true,
+              "name": "text",
+              "type": "text"
+            }
+          ],
+          "name": "chart init"
+        }
+      ]
+    }
+  ]
+}
