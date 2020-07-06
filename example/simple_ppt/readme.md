@@ -10,7 +10,7 @@ pptt make_schema master.pptx -o output.json
 # slide.json
 [
   {
-    "slide_name": "title slide",
+    "slide_name": "title_slide",
     "contents": {
       "title": {
         "text": "It's So Easy"
@@ -21,7 +21,7 @@ pptt make_schema master.pptx -o output.json
     }
   },
   {
-    "slide_name": "chart init",
+    "slide_name": "chart_slide",
     "contents": {
       "title": {
         "text": "we will support easy chart data"
@@ -32,7 +32,7 @@ pptt make_schema master.pptx -o output.json
     }
   },
   {
-    "slide_name": "title slide",
+    "slide_name": "title_slide",
     "contents": {
       "title": {
         "text": "You can set many page\n what you want"
@@ -43,7 +43,7 @@ pptt make_schema master.pptx -o output.json
     }
   },
   {
-    "slide_name": "title slide",
+    "slide_name": "title_slide",
     "contents": {
       "title": {
         "text": "One More Thing!"
