@@ -1,6 +1,6 @@
 [
   {
-    "slide_name": "title slide",
+    "slide_name": "title_slide",
     "contents": {
       "title": {
         "text": "It's So Easy"
@@ -11,7 +11,7 @@
     }
   },
   {
-    "slide_name": "chart init",
+    "slide_name": "chart_slide",
     "contents": {
       "title": {
         "text": "we will support easy chart data"
@@ -22,10 +22,10 @@
     }
   },
   {
-    "slide_name": "title slide",
+    "slide_name": "title_slide",
     "contents": {
       "title": {
-        "text": "You can set many page\n what you want"
+        "text": "You can set\n many page\n what you want"
       },
       "subtitle": {
         "text": "hahahaha"
@@ -33,7 +33,7 @@
     }
   },
   {
-    "slide_name": "title slide",
+    "slide_name": "title_slide",
     "contents": {
       "title": {
         "text": "One More Thing!"

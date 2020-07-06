@@ -1,90 +1,93 @@
 {
   "masters": [
     {
-      "main": true,
       "name": "",
+      "main": true,
       "slides": [
         {
+          "name": "title_slide",
           "shapes": [
             {
-              "is_placeholder": false,
-              "name": "background"
+              "name": "background",
+              "type": "",
+              "is_placeholder": false
             },
             {
-              "is_placeholder": true,
               "name": "title",
-              "type": "text"
+              "type": "text",
+              "is_placeholder": true
             },
             {
-              "is_placeholder": true,
               "name": "subtitle",
-              "type": "text"
+              "type": "text",
+              "is_placeholder": true
             },
             {
-              "is_placeholder": true,
               "name": "date",
-              "type": "text"
+              "type": "text",
+              "is_placeholder": true
             }
-          ],
-          "name": "title slide"
+          ]
         },
         {
+          "name": "table_slide",
           "shapes": [
             {
-              "is_placeholder": false,
-              "name": "background"
-            },
-            {
-              "is_placeholder": true,
-              "name": "chart",
-              "type": "text"
-            },
-            {
-              "is_placeholder": true,
               "name": "title",
-              "type": "text"
+              "type": "text",
+              "is_placeholder": true
             },
             {
-              "is_placeholder": true,
-              "name": "text",
-              "type": "text"
+              "name": "date",
+              "type": "text",
+              "is_placeholder": true
             },
             {
-              "is_placeholder": true,
-              "name": "page-number",
-              "type": "text"
+              "name": "footer",
+              "type": "text",
+              "is_placeholder": true
+            },
+            {
+              "name": "page_number",
+              "type": "text",
+              "is_placeholder": true
+            },
+            {
+              "name": "table",
+              "type": "table",
+              "is_placeholder": false
             }
-          ],
-          "name": "chart placholder"
+          ]
         },
         {
+          "name": "chart_slide",
           "shapes": [
             {
-              "is_placeholder": false,
-              "name": "background"
+              "name": "background",
+              "type": "",
+              "is_placeholder": false
             },
             {
-              "is_placeholder": true,
               "name": "page-number",
-              "type": "text"
+              "type": "text",
+              "is_placeholder": true
             },
             {
-              "is_placeholder": true,
               "name": "title",
-              "type": "text"
+              "type": "text",
+              "is_placeholder": true
             },
             {
-              "is_placeholder": false,
               "name": "chart",
-              "type": "chart"
+              "type": "chart",
+              "is_placeholder": false
             },
             {
-              "is_placeholder": true,
               "name": "text",
-              "type": "text"
+              "type": "text",
+              "is_placeholder": true
             }
-          ],
-          "name": "chart init"
+          ]
         }
       ]
     }

@@ -14,6 +14,7 @@ class ShapeSchema(Schema):
         sh = cls()
         sh.name = _sh.name
         sh.is_placeholder = _sh.is_placeholder
+        sh.type = ''
         if _sh.has_table:
             sh.type = 'table'
         elif _sh.has_chart:
@@ -24,6 +25,7 @@ class ShapeSchema(Schema):
 
 
 class SlideLayoutSchema(Schema):
+    shape_schema_class = ShapeSchema
     name = fields.Str(required=True)
     shapes = fields.List(fields.Nested(ShapeSchema))
 
@@ -31,25 +33,27 @@ class SlideLayoutSchema(Schema):
     def load_by_pptx(cls, _sl: SlideLayout):
         sl = cls()
         sl.name = _sl.name
-        sl.shapes = [ShapeSchema.load_by_pptx(sh) for sh in _sl.shapes]
+        sl.shapes = [cls.shape_schema_class.load_by_pptx(sh) for sh in _sl.shapes]
         return sl
 
 
 class SlideMasterSchema(Schema):
+    slide_layout_class = SlideLayoutSchema
     name = fields.Str(required=True)
     main = fields.Bool(default=True)
     slides = fields.List(fields.Nested(SlideLayoutSchema))
 
     @classmethod
-    def load_by_pptx(cls, _sm: SlideMaster, main=True):
+    def load_by_pptx(cls, _sm: SlideMaster, main):
         sm = cls()
         sm.name = _sm.name
         sm.main = main
-        sm.slides = [SlideLayoutSchema.load_by_pptx(sl) for sl in _sm.slide_layouts]
+        sm.slides = [cls.slide_layout_class.load_by_pptx(sl) for sl in _sm.slide_layouts]
         return sm
 
 
 class PPTTemplate(Schema):
+    slide_master_class = SlideMasterSchema
     main = fields.Str()
     masters = fields.List(fields.Nested(SlideMasterSchema))
 
@@ -57,5 +61,21 @@ class PPTTemplate(Schema):
     def load_by_pptx(cls, _ppt: Presentation):
         ppt = cls()
         ppt.name = _ppt.slide_master.name
-        ppt.masters = [SlideMasterSchema.load_by_pptx(sm, sm.name == ppt.name) for sm in _ppt.slide_masters]
+        ppt.masters = [cls.slide_master_class.load_by_pptx(sm, idx == 0) for idx, sm in enumerate(_ppt.slide_masters)]
         return ppt
+
+
+class SlideStub(Schema):
+    _slide_layout_name = None
+
+    def get_contents(self):
+        result = {}
+        for name, field_type in self.fields.items():
+            if isinstance(field_type, fields.String):
+                try:
+                    value = getattr(self, name)
+                    result[name] = {"text": value}
+                except Exception as e:
+                    print(e)
+
+        return result
