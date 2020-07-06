@@ -69,3 +69,5 @@ pptt make_ppt master.pptx clone.pptx -i slide.json
 - 0.0.1
     - add cli version
     - cli usecase example
+- 0.0.2
+    - support [python api](https://github.com/spaceone-dev/PPTT/tree/master/example/python_api)
