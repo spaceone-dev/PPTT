@@ -32,19 +32,30 @@ def make_schema(file, verify, output=None, ):
 @click.command("make_ppt", short_help="Run a development server.")
 @click.argument('master_file', type=click.Path(exists=True, resolve_path=True))
 @click.argument('target_file', type=click.Path(exists=False, resolve_path=True))
+@click.option('--mode', '-m', default='replace', help='how to make ppt? replace,template')
 @click.option("--input", "-i", help="input data", type=click.Path(exists=True, resolve_path=True))
-def make_ppt_command(master_file, target_file, input):
+def make_ppt_command(master_file, target_file, mode, input):
     with open(input, mode='r') as fp:
-        pages = json.load(fp)
-    make_ppt(master_file, target_file, pages)
+        raw = json.load(fp)
+        if isinstance(raw, list):
+            pages = raw
+        else:
+            pages = raw['pages']
+    make_ppt(master_file, target_file, pages, mode=mode)
 
 
 @click.command("make_stub", short_help="Run a development server.")
 @click.argument('master_file', type=click.Path(exists=True, resolve_path=True))
+@click.option('--mode', '-m', default='replace', help='how to make ppt? replace,template')
 @click.option('--output', '-o', type=click.Path(exists=False, resolve_path=True))
-def make_stub_command(master_file, output=''):
+def make_stub_command(master_file, mode, output=''):
     master_ppt = Presentation(master_file)
-    template = PPTTemplateStub.load_by_pptx(master_ppt)
+    if mode == 'replace':
+        raise NotImplementedError('un support mode')
+    elif mode == 'template':
+        template = PPTTemplateStub.load_by_pptx(master_ppt)
+    else:
+        raise NotImplementedError('un support mode')
     output_path = output or os.path.join(os.path.dirname(master_file), 'slide_stubs.py')
     template.to_file(output_path)
 
