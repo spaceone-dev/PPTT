@@ -102,9 +102,9 @@ def clear_text_frame(text_frame: TextFrame):
 def replace_text_frame(text_frame: TextFrame, new_text):
     clear_text_frame(text_frame)
     style_paragraph = text_frame.paragraphs[0]
-    style_run = style_paragraph.runs[0]
+    style_run = style_paragraph.runs[0] if len(style_paragraph.runs) else style_paragraph.add_run()
 
-    split_text = to_unicode(new_text).split('\n')
+    split_text = to_unicode(f"{new_text}").split('\n')
     if split_text:
         replace_paragraphs_text(text_frame.paragraphs[0], split_text[0])
         for text in split_text[1:]:
@@ -115,21 +115,28 @@ def replace_text_frame(text_frame: TextFrame, new_text):
 
 
 def replace_table_data_key_value(shape: GraphicFrame, data):
+    print(data)
     keys: List[str or Dict[str, str]] = data.get('keys', [])
-    datas: List[dict] = data.get('data', [])
+    records: List[dict] = data.get('data', [])
+    header_names = [k.get('name', '') if isinstance(k, dict) else k for k in keys]
     data_keys = [k.get('data_key') if isinstance(k, dict) else k for k in keys]
     for r_idx, row in enumerate(shape.table.rows):
         if r_idx == 0:
-            for c_idx, cel in enumerate(row.cells):
-                target_key = keys[c_idx]
-                if isinstance(target_key, dict):
-                    replace_text_frame(cel.text_frame, target_key.get('name', ''))
-                elif isinstance(target_key, str):
-                    replace_text_frame(cel.text_frame, target_key)
+            for idx, name in enumerate(header_names):
+                try:
+                    replace_text_frame(row.cells[idx].text_frame, name)
+                    print(name)
+                except Exception as e:
+                    print(e)
         else:
-            data = datas[r_idx + 1]
+            print(records)
+            record = records[r_idx - 1]
+            print(record)
             for idx, key in enumerate(data_keys):
-                row.cells[idx].text = data.get(key)
+                try:
+                    replace_text_frame(row.cells[idx].text_frame, record.get(key))
+                except Exception as e:
+                    print(e)
 
 
 TABLE_DATA_TYPE_HANDLER = {
@@ -143,11 +150,12 @@ def replace_data(slide, contents: dict, mode="replace"):
         shape = find_shape(slide, name) if mode == 'replace' else find_shape_by_slide_layout(slide, name)
         if shape:
             # shape.name = name # for
-            if 'text' in data:
-                replace_text_frame(shape.text_frame, data['text'])
-            if 'table' in data:
+            if text_data := data.get('text'):
+                replace_text_frame(shape.text_frame, text_data)
+            if table_data := data.get('table'):
                 try:
-                    TABLE_DATA_TYPE_HANDLER[data.get('data_type', 'raw')](shape, data['table'])
+                    data_type = table_data.get('data_type', 'raw')
+                    TABLE_DATA_TYPE_HANDLER[data_type](shape, table_data)
                 except Exception as e:
                     print(e)
 
