@@ -5,7 +5,7 @@ from unittest import TestCase
 from pptx import Presentation
 from pptx.presentation import Presentation as PresentationType
 
-from ...PPTT.ppt import find_shape_by_slide_layout, find_shape
+from PPTT.utils import find_shape, find_shape_by_slide_layout
 
 
 class PPTTTestCase(TestCase):
@@ -34,3 +34,17 @@ class PPTTTestCase(TestCase):
     @staticmethod
     def find_shape(slide, name):
         return find_shape(slide, name)
+
+
+class DebugPPTTestCase(PPTTTestCase):
+    """
+    help debuging pptx when develop testcase
+    """
+    temp_dir = None
+    target_slide = ''
+
+    def setUp(self):
+        self.target_slide = os.path.join(self.temp_dir, 'target.pptx')
+
+    def tearDown(self):
+        pass

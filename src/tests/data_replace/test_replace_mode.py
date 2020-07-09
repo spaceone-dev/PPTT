@@ -1,13 +1,13 @@
 import os
-from typing import List
+from typing import List, Dict
 
-from .testcase import PPTTTestCase
+from .testcase import PPTTTestCase, DebugPPTTestCase
 from ...PPTT.ppt import make_ppt
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-class TextPlaceholderTestCase(PPTTTestCase):
+class TextReplaceTestCase(PPTTTestCase):
     master_slide = os.path.join(BASE_DIR, 'text_replace.pptx')
 
     def test_replace_text(self):
@@ -83,7 +83,7 @@ class TextPlaceholderTestCase(PPTTTestCase):
         self.assertEqual(contents[body_shape_name]['text'], body_shape.text)
 
 
-class TablePlaceholderTestCase(PPTTTestCase):
+class TableReplaceTestCase(PPTTTestCase):
     master_slide = os.path.join(BASE_DIR, 'table_replace.pptx')
 
     def test_replace_key_value_type(self):
@@ -133,44 +133,89 @@ class TablePlaceholderTestCase(PPTTTestCase):
             target_table_records.append([cell.text for cell in rows[row_real_idx].cells])
         self.assertEqual(table_records, target_table_records)
 
-        # def test_replace_key_value_type_struct_keys(self):
-        #     ms = self.get_master_ppt()
-        #     slide_layout_name = 'simple_table'
-        #     origin_layout = ms.slide_master.slide_layouts.get_by_name(slide_layout_name)
-        #     # check placeholder exists
-        #     shape_name = 'table'
-        #     table_shape = [s for s in origin_layout.shapes if s.name == shape_name][0]
-        #     self.assertTrue(table_shape.has_table)
-        #
-        #     input = [
-        #         {
-        #             "slide_name": slide_layout_name,
-        #             "contents": {
-        #                 shape_name: {
-        #                     "table": {
-        #                         "data_type": "key-value",
-        #                         "keys": [
-        #                             {"text": "Name", "data_key": "name"},
-        #                             {"text": "Age", "data_key": "name"}
-        #                         ],
-        #                         "data": [
-        #                             {"name": "NAME", "age": "AGE"},
-        #                             {"name": "abc", "age": 1},
-        #                             {"name": "aasdfasdf", "age": 3},
-        #                             {"name": "bcd", "age": 4},
-        #                         ]
-        #                     }
-        #                 },
-        #             }
-        #         }
-        #     ]
-        #     make_ppt(self.master_slide, self.target_slide, input)
-        #     ppt = self.get_target_ppt()
-        #     self.assertEqual(1, len(ppt.slides))
-        #     shapes = ppt.slides[0].shapes
-        #     self.assertEqual(1, len(shapes))
-        #
-        #     slide = ppt.slides[0]
-        #     contents = input[0]['contents']
-        #     table_shape = self.find_shape(slide, shape_name)
-        #     # self.assertEqual(contents[shape_name]['text'], table_shape.text)
+
+class ChartReplaceTestCase(DebugPPTTestCase):
+    temp_dir = BASE_DIR
+    master_slide = os.path.join(BASE_DIR, 'chart_replace.pptx')
+
+    def test_replace_simple_category_data_type(self):
+        ms = self.get_master_ppt()
+        slide_pos = 1
+        real_slide_pos = slide_pos - 1
+        origin_slide = ms.slides[real_slide_pos]
+        # check placeholder exists
+        shape_name = 'bar_chart'
+        self.assertTrue([s for s in origin_slide.shapes if s.name == shape_name][0])
+
+        input = [
+            {
+                "slide_pos": slide_pos,
+                "contents": {
+                    shape_name: {
+                        "chart": {
+                            "data_type": "category_data",
+                            "categories": ['list', 'dict', 'str'],
+                            "series": {
+                                "series 1": [5, 13, 8]
+                            }
+                        }
+                    },
+                }
+            }
+        ]
+        make_ppt(self.master_slide, self.target_slide, input)
+        ppt = self.get_target_ppt()
+        slide = ppt.slides[real_slide_pos]
+        self.assertEqual(1, len(slide.shapes))
+
+        chart_contents = input[0]['contents'][shape_name]['chart']
+        chart_categories = chart_contents['categories']
+        chart_series: Dict[str, list] = chart_contents['series']
+
+        chart = self.find_shape(slide, shape_name).chart
+        # check categories
+        self.assertEqual(chart_categories, [cat.label for cat in chart.plots[0].categories])
+        # check series names
+        self.assertEqual(list(chart_series.keys()), [ser.name for ser in chart.series])
+        # check series values
+        self.assertEqual(
+            [[float(v) for v in vs] for vs in chart_series.values()],
+            [list(ser.values) for ser in chart.series]
+        )
+
+    def test_replace_chart_text(self):
+        ms = self.get_master_ppt()
+        slide_pos = 1
+        real_slide_pos = slide_pos - 1
+        origin_slide = ms.slides[real_slide_pos]
+        # check placeholder exists
+        shape_name = 'bar_chart'
+        self.assertTrue([s for s in origin_slide.shapes if s.name == shape_name][0])
+
+        input = [
+            {
+                "slide_pos": slide_pos,
+                "contents": {
+                    shape_name: {
+                        "chart": {
+                            "data_type": "category_data",
+                            "title": "this is new chart",
+                            "categories": ['list', 'dict', 'str'],
+                            "series": {
+                                "series 1": [5, 13, 8]
+                            }
+                        }
+                    },
+                }
+            }
+        ]
+        make_ppt(self.master_slide, self.target_slide, input)
+        ppt = self.get_target_ppt()
+        slide = ppt.slides[real_slide_pos]
+        self.assertEqual(1, len(slide.shapes))
+
+        chart_contents = input[0]['contents'][shape_name]['chart']
+        chart_title = chart_contents['title']
+
+        chart = self.find_shape(slide, shape_name).chart
+        self.assertEqual(chart_title, chart.chart_title.text_frame.text)
