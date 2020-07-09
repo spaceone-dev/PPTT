@@ -1,7 +1,7 @@
 import os
 
-from .testcase import PPTTTestCase
-from ...PPTT.ppt import make_ppt
+# from .testcase import PPTTTestCase
+# from ...PPTT.ppt import make_ppt
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
