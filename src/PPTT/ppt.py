@@ -6,7 +6,10 @@ from .replace import replace_data
 from .schema import SlideStub
 
 
-def make_ppt(master_file: str, target_file: str, pages: list, mode: str = "replace"):
+def make_ppt(
+        master_file: str, target_file: str,
+        pages: List[dict], delete_pages: List[int] = None,
+        mode: str = "replace"):
     master_pt = Presentation(master_file)
     for page in pages:
         if mode == 'template':

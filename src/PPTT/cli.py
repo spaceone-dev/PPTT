@@ -5,6 +5,7 @@ from pprint import pprint
 import click
 from pptx import Presentation
 
+from PPTT.type import InputDataType
 from .parser import parser
 from .ppt import make_ppt
 from .schema import PPTTemplate
@@ -14,6 +15,16 @@ from .stub import PPTTemplateStub
 @click.group()
 def cli():
     pass
+
+
+def get_input_file(input_file_path: str) -> InputDataType:
+    with open(input_file_path, mode='r') as fp:
+        raw = json.load(fp)
+        if isinstance(raw, list):
+            result = {"pages": raw}
+        else:
+            result = raw
+    return result
 
 
 @click.command("make_schema", short_help="Run a development server.")
@@ -35,13 +46,8 @@ def make_schema(file, verify, output=None, ):
 @click.option('--mode', '-m', default='replace', help='how to make ppt? replace,template')
 @click.option("--input", "-i", help="input data", type=click.Path(exists=True, resolve_path=True))
 def make_ppt_command(master_file, target_file, mode, input):
-    with open(input, mode='r') as fp:
-        raw = json.load(fp)
-        if isinstance(raw, list):
-            pages = raw
-        else:
-            pages = raw['pages']
-    make_ppt(master_file, target_file, pages, mode=mode)
+    input_data = get_input_file(input)
+    make_ppt(master_file, target_file, mode=mode, **input_data)
 
 
 @click.command("make_stub", short_help="Run a development server.")

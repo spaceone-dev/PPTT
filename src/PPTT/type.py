@@ -32,3 +32,8 @@ class CategoryDataType(ChartDataType):
 
 
 ChartDataTypes = Union[CategoryDataType]
+
+
+class InputDataType(TypedDict):
+    delete_pages: Optional[List[int]]
+    pages: List[dict]
