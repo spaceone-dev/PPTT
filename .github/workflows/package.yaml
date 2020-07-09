@@ -22,9 +22,9 @@ jobs:
     - name: Lint with flake8
       run: |
         flake8 . --count --show-source --statistics
-#    - name: Test with pytest
-#      run: |
-#        nosetests ./src/tests -v
+    - name: Test with pytest
+      run: |
+        nosetests ./src/tests -v
     - name: Build and publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
