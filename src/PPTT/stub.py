@@ -8,10 +8,7 @@ from marshmallow import fields
 from slugify import slugify
 
 from .schema import SlideLayoutSchema, PPTTemplate, SlideMasterSchema, ShapeSchema
-
-
-def name_to_slugify(name: str):
-    return slugify(name, separator='_')
+from .utils import name_to_slugify
 
 
 class ShapeStub(ShapeSchema):
