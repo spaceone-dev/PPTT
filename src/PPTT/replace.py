@@ -70,7 +70,6 @@ def replace_text_frame(text_frame: TextFrame, new_text: Text):
 
 
 def replace_table_data_key_value(shape: GraphicFrame, data: KeyValueDataType):
-    print(data)
     keys: KVKeys = data.get('keys', [])
     records = data.get('data', [])
     header_names: List[str] = [k.get('name', '') if isinstance(k, dict) else k for k in keys]
@@ -80,13 +79,10 @@ def replace_table_data_key_value(shape: GraphicFrame, data: KeyValueDataType):
             for idx, name in enumerate(header_names):
                 try:
                     replace_text_frame(row.cells[idx].text_frame, name)
-                    print(name)
                 except Exception as e:
                     print(e)
         else:
-            print(records)
             record = records[r_idx - 1]
-            print(record)
             for idx, key in enumerate(data_keys):
                 try:
                     replace_text_frame(row.cells[idx].text_frame, record.get(key))
@@ -94,9 +90,20 @@ def replace_table_data_key_value(shape: GraphicFrame, data: KeyValueDataType):
                     print(e)
 
 
+def replace_table_data_raw(shape: GraphicFrame, data: KeyValueDataType):
+    records = data.get('data', [])
+    for r_idx, row in enumerate(shape.table.rows):
+        try:
+            record = records[r_idx]
+            for c_idx, cell in enumerate(row.cells):
+                replace_text_frame(cell.text_frame, record[c_idx])
+        except Exception as e:
+            print(e)
+
+
 TABLE_DATA_TYPE_HANDLER = {
     "key_value": replace_table_data_key_value,
-    "raw": lambda shape, data: None
+    "raw": replace_table_data_raw,
 }
 
 

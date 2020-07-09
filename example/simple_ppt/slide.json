@@ -66,6 +66,16 @@
               ["AWS", 20, 15]
             ]
           }
+        },
+        "chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["Apple", "Google", "AWS"],
+            "series": {
+              "1Q": [10, 8, 20],
+              "2Q": [20, 6, 15]
+            }
+          }
         }
       }
     }

@@ -47,7 +47,12 @@ def make_schema(file, verify, output=None, ):
 @click.option("--input", "-i", help="input data", type=click.Path(exists=True, resolve_path=True))
 def make_ppt_command(master_file, target_file, mode, input):
     input_data = get_input_file(input)
-    make_ppt(master_file, target_file, mode=mode, **input_data)
+    try:
+        make_ppt(master_file, target_file, mode=mode, **input_data)
+        print(f'make ppt success! check {target_file}')
+    except Exception as e:
+        print('fail to make ppt')
+        print(e)
 
 
 @click.command("make_stub", short_help="Run a development server.")
@@ -66,8 +71,8 @@ def make_stub_command(master_file, mode, output=''):
     template.to_file(output_path)
 
 
-cli.add_command(make_schema)
+# cli.add_command(make_schema)
 cli.add_command(make_ppt_command)
-cli.add_command(make_stub_command)
+# cli.add_command(make_stub_command)
 if __name__ == '__main__':
     cli()
