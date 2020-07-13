@@ -115,3 +115,8 @@ pptt make_ppt master.pptx clone.pptx -i slide.json
         - support data type : raw, key_value
     - support chart data replace
         - support data type :  category_data
+- 0.0.4
+    - New Feature
+        - support all chart data tye : xy_data, bubble_data
+    - Docs
+        - add [chart example](https://github.com/spaceone-dev/PPTT/tree/master/example/chart_example)

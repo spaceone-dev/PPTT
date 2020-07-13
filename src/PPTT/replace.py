@@ -1,12 +1,13 @@
 from typing import List, Callable, Dict
 
-from pptx.chart.data import CategoryChartData
+from pptx.chart.data import CategoryChartData, XyChartData, BubbleChartData
 from pptx.compat import to_unicode
 from pptx.enum.dml import MSO_COLOR_TYPE
 from pptx.shapes.graphfrm import GraphicFrame
 from pptx.text.text import TextFrame
 
-from .type import KeyValueDataType, CategoryDataType, KVKeys, ChartDataType, ChartDataTypes, Text
+from .type import KeyValueDataType, CategoryDataType, KVKeys, ChartDataType, ChartDataTypes, Text, XYDataType, \
+    BubbleDataType
 from .utils import find_shape, find_shape_by_slide_layout
 
 
@@ -113,11 +114,34 @@ def replace_category_data(shape: GraphicFrame, data: CategoryDataType):
     for name, series_data in data.get('series', {}).items():
         chart_data.add_series(name, series_data)
     shape.chart.replace_data(chart_data)
-    pass
+
+
+def replace_xy_data(shape: GraphicFrame, data: XYDataType):
+    chart_data = XyChartData()
+
+    for name, points in data.get('series', {}).items():
+        series_data = chart_data.add_series(name)
+        for point in points:
+            series_data.add_data_point(point['x'], point['y'])
+
+    shape.chart.replace_data(chart_data)
+
+
+def replace_bubble_data(shape: GraphicFrame, data: BubbleDataType):
+    chart_data = BubbleChartData()
+
+    for name, points in data.get('series', {}).items():
+        series_data = chart_data.add_series(name)
+        for point in points:
+            series_data.add_data_point(point['x'], point['y'], point['size'])
+
+    shape.chart.replace_data(chart_data)
 
 
 CHART_DATA_TYPE_HANDLER: Dict[str, Callable[[GraphicFrame, ChartDataTypes], None]] = {
-    "category_data": replace_category_data
+    "category_data": replace_category_data,
+    "xy_data": replace_xy_data,
+    "bubble_data": replace_bubble_data,
 }
 
 
