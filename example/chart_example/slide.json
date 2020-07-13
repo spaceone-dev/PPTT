@@ -1,0 +1,179 @@
+{
+  "pages": [
+    {
+      "slide_pos": 1,
+      "contents": {
+        "bar_chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["list", "dict", "str"],
+            "series": {
+              "series 1": [5, 13, 8],
+              "series 2": [6, 1, 3]
+            }
+          }
+        }
+      }
+    },
+    {
+      "slide_pos": 2,
+      "contents": {
+        "bar_mix_chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["list", "dict", "str"],
+            "series": {
+              "series 1": [5, 13, 8],
+              "series 2": [6, 1, 3]
+            }
+          }
+        },
+        "bar_100_chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["list", "dict", "str"],
+            "series": {
+              "series 1": [5, 13, 8],
+              "series 2": [6, 1, 3]
+            }
+          }
+        }
+      }
+    },
+    {
+      "slide_pos": 3,
+      "contents": {
+        "line_chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["list", "dict", "str"],
+            "series": {
+              "series 1": [5, 13, 8],
+              "series 2": [6, 1, 3]
+            }
+          }
+        },
+        "area_chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["list", "dict", "str"],
+            "series": {
+              "series 1": [5, 13, 8],
+              "series 2": [6, 1, 3]
+            }
+          }
+        }
+      }
+    },
+    {
+      "slide_pos": 4,
+      "contents": {
+        "circle_chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["list", "dict", "str"],
+            "series": {
+              "series 1": [5, 13, 8],
+              "series 2": [6, 1, 3]
+            }
+          }
+        },
+        "donut_chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["list", "dict", "str"],
+            "series": {
+              "series 1": [5, 13, 8],
+              "series 2": [6, 1, 3]
+            }
+          }
+        }
+      }
+    },
+    {
+      "slide_pos": 5,
+      "contents": {
+        "radar_chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["list", "dict", "str"],
+            "series": {
+              "series 1": [5, 13, 8],
+              "series 2": [6, 1, 3]
+            }
+          }
+        }
+      }
+    },
+    {
+      "slide_pos": 6,
+      "contents": {
+        "combo_chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["apple", "google", "tesla"],
+            "series": {
+              "series 1": [5, 6, 3],
+              "series 2": [3, 2, 6],
+              "series 3": [5, 7, 8],
+              "series 4": [1, 3, 11],
+              "series 5": [2, 4, 20]
+            }
+          }
+        }
+      }
+    },
+    {
+      "slide_pos": 7,
+      "contents": {
+        "xy_chart": {
+          "chart": {
+            "data_type": "xy_data",
+            "series": {
+              "apple": [
+                {"x": 1, "y": 7},
+                {"x": 3, "y": 4},
+                {"x": 6, "y": 5},
+                {"x": 4, "y": 3},
+                {"x": 9, "y": 5}
+              ],
+              "google": [
+                {"x": 5, "y": 7},
+                {"x": 6, "y": 2},
+                {"x": 10, "y": 5},
+                {"x": 3, "y": 1},
+                {"x": 9, "y": 4}
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "slide_pos": 8,
+      "contents": {
+        "xy_chart": {
+          "chart": {
+            "data_type": "bubble_data",
+            "series": {
+              "apple": [
+                {"x": 1, "y": 7, "size": 5},
+                {"x": 3, "y": 4, "size": 4},
+                {"x": 6, "y": 5, "size": 1},
+                {"x": 4, "y": 3, "size": 8},
+                {"x": 9, "y": 5, "size": 3}
+              ],
+              "google": [
+                {"x": 5, "y": 7, "size": 5},
+                {"x": 6, "y": 2, "size": 3},
+                {"x": 10, "y": 5, "size": 7},
+                {"x": 3, "y": 1, "size": 2},
+                {"x": 9, "y": 4, "size": 3}
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

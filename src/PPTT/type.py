@@ -6,6 +6,7 @@ class DataType(TypedDict):
 
 
 Text = TypeVar('Text', int, str)
+Number = TypeVar('Number', float, int)
 
 
 class KVKeyType(TypedDict):
@@ -31,7 +32,26 @@ class CategoryDataType(ChartDataType):
     series: Dict[Text, List[int]]
 
 
-ChartDataTypes = Union[CategoryDataType]
+class XYPoint(TypedDict):
+    y: Number
+    x: Number
+
+
+class XYDataType(ChartDataType):
+    number_format: Optional[str]
+    series: Dict[Text, List[XYPoint]]
+
+
+class BubblePoint(XYPoint):
+    size: Number
+
+
+class BubbleDataType(ChartDataType):
+    number_format: Optional[str]
+    series: Dict[Text, List[BubblePoint]]
+
+
+ChartDataTypes = Union[CategoryDataType, BubbleDataType, XYDataType]
 
 
 class InputDataType(TypedDict):
