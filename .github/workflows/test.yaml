@@ -23,5 +23,6 @@ jobs:
         run: |
           flake8 . --count --show-source --statistics
       - name: Test with pytest
-        run: |
-          nosetests ./src/tests -v
+        run: pytest
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1

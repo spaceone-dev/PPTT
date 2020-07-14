@@ -1,4 +1,6 @@
 # PPTT
+[![codecov](https://codecov.io/gh/spaceone-dev/PPTT/branch/master/graph/badge.svg)](https://codecov.io/gh/spaceone-dev/PPTT)
+
 PowerPoint Template for python
 
 ## Installation
@@ -98,6 +100,11 @@ pptt make_ppt master.pptx clone.pptx -i slide.json
 
 ##### clone.pptx preview
 ![master_preview](https://raw.githubusercontent.com/spaceone-dev/PPTT/master/example/simple_ppt/clone_pptx_preview.png)
+
+# test
+```
+. ./tests.sh
+```
 
 # Change Logs
 - 0.0.1

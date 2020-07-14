@@ -5,7 +5,7 @@ from unittest import TestCase
 from pptx import Presentation
 from pptx.presentation import Presentation as PresentationType
 
-from PPTT.utils import find_shape, find_shape_by_slide_layout
+from ...PPTT.utils import find_shape, find_shape_by_slide_layout
 
 
 class PPTTTestCase(TestCase):

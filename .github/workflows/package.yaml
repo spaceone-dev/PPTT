@@ -23,8 +23,9 @@ jobs:
       run: |
         flake8 . --count --show-source --statistics
     - name: Test with pytest
-      run: |
-        nosetests ./src/tests -v
+      run: pytest
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
     - name: Build and publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
