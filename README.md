@@ -1,5 +1,10 @@
 # PPTT
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/PPTT?style=flat-square)](https://pypi.org/project/PPTT)
+[![PyPI](https://img.shields.io/pypi/v/PPTT?style=flat-square)](https://pypi.org/project/PPTT)
+[![PyPI download month](https://img.shields.io/pypi/dm/PPTT?style=flat-square)](https://pypi.org/project/PPTT)
 [![codecov](https://codecov.io/gh/spaceone-dev/PPTT/branch/master/graph/badge.svg)](https://codecov.io/gh/spaceone-dev/PPTT)
+[![HitCount](http://hits.dwyl.com/spaceone-dev/PPTT.svg)](http://hits.dwyl.com/spaceone-dev/PPTT)
+
 
 PowerPoint Template for python
 
@@ -127,3 +132,6 @@ pptt make_ppt master.pptx clone.pptx -i slide.json
         - support all chart data tye : xy_data, bubble_data
     - Docs
         - add [chart example](https://github.com/spaceone-dev/PPTT/tree/master/example/chart_example)
+- 0.0.5
+    - Bug Fix
+        - fix table replace data dose not reset issue
