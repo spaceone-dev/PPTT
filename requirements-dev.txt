@@ -1,6 +1,6 @@
 -r requirements.txt
-setuptools
-wheel
-twine
-nose
-flake8
+setuptools>=49.2.0
+wheel>=0.34.2
+twine>=3.2.0
+flake8>=3.8.3
+pytest-cov>=2.10.0
