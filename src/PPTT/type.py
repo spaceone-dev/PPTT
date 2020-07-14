@@ -22,6 +22,10 @@ class KeyValueDataType(DataType):
     data: List[Dict[Text, Text]]
 
 
+class RawDataType(DataType):
+    data: List[List[Text]]
+
+
 class ChartDataType(DataType):
     title: Text
 

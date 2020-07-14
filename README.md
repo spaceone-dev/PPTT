@@ -99,6 +99,11 @@ pptt make_ppt master.pptx clone.pptx -i slide.json
 ##### clone.pptx preview
 ![master_preview](https://raw.githubusercontent.com/spaceone-dev/PPTT/master/example/simple_ppt/clone_pptx_preview.png)
 
+# test
+```
+pytest
+```
+
 # Change Logs
 - 0.0.1
     - add cli version

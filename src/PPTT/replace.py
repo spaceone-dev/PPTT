@@ -7,7 +7,7 @@ from pptx.shapes.graphfrm import GraphicFrame
 from pptx.text.text import TextFrame
 
 from .type import KeyValueDataType, CategoryDataType, KVKeys, ChartDataType, ChartDataTypes, Text, XYDataType, \
-    BubbleDataType
+    BubbleDataType, RawDataType
 from .utils import find_shape, find_shape_by_slide_layout
 
 
@@ -49,14 +49,18 @@ def replace_paragraph_style(style_paragraph, target_paragraph):
     style_paragraph.space_before = target_paragraph.space_before
 
 
-def clear_text_frame(text_frame: TextFrame):
+def clear_text_frame(text_frame: TextFrame, all: bool = False):
+    index = 0 if all else 1
     # remove all paragraphs
-    for p in text_frame._txBody.p_lst[1:]:
+    for p in text_frame._txBody.p_lst[index:]:
         text_frame._txBody.remove(p)
 
 
 def replace_text_frame(text_frame: TextFrame, new_text: Text):
     clear_text_frame(text_frame)
+    if new_text == None:
+        new_text = ''
+
     style_paragraph = text_frame.paragraphs[0]
     style_run = style_paragraph.runs[0] if len(style_paragraph.runs) else style_paragraph.add_run()
 
@@ -70,36 +74,34 @@ def replace_text_frame(text_frame: TextFrame, new_text: Text):
             replace_run_style(style_run, p.runs[0])
 
 
+def replace_table_data_raw(shape: GraphicFrame, data: RawDataType):
+    records = data.get('data', [])
+    for r_idx, row in enumerate(shape.table.rows):
+        try:
+            record = records[r_idx]
+        except IndexError as _:
+            record = [None for _ in range(len(row.cells))]
+        print(record)
+        for c_idx, cell in enumerate(row.cells):
+            try:
+                value = record[c_idx]
+            except IndexError as _:
+                value = ''
+            replace_text_frame(cell.text_frame, value)
+
+
 def replace_table_data_key_value(shape: GraphicFrame, data: KeyValueDataType):
     keys: KVKeys = data.get('keys', [])
     records = data.get('data', [])
     header_names: List[str] = [k.get('name', '') if isinstance(k, dict) else k for k in keys]
     data_keys: List[str] = [k.get('data_key') if isinstance(k, dict) else k for k in keys]
-    for r_idx, row in enumerate(shape.table.rows):
-        if r_idx == 0:
-            for idx, name in enumerate(header_names):
-                try:
-                    replace_text_frame(row.cells[idx].text_frame, name)
-                except Exception as e:
-                    print(e)
-        else:
-            record = records[r_idx - 1]
-            for idx, key in enumerate(data_keys):
-                try:
-                    replace_text_frame(row.cells[idx].text_frame, record.get(key))
-                except Exception as e:
-                    print(e)
 
-
-def replace_table_data_raw(shape: GraphicFrame, data: KeyValueDataType):
-    records = data.get('data', [])
-    for r_idx, row in enumerate(shape.table.rows):
-        try:
-            record = records[r_idx]
-            for c_idx, cell in enumerate(row.cells):
-                replace_text_frame(cell.text_frame, record[c_idx])
-        except Exception as e:
-            print(e)
+    raw_records = [[record.get(key) for key in data_keys] for record in records]
+    raw_data = [header_names] + raw_records
+    raw = {
+        "data": raw_data
+    }
+    replace_table_data_raw(shape, raw)
 
 
 TABLE_DATA_TYPE_HANDLER = {
