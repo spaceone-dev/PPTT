@@ -1,3 +1,4 @@
+from itertools import repeat
 from typing import List, Callable, Dict
 
 from pptx.chart.data import CategoryChartData, XyChartData, BubbleChartData
@@ -58,7 +59,7 @@ def clear_text_frame(text_frame: TextFrame, all: bool = False):
 
 def replace_text_frame(text_frame: TextFrame, new_text: Text):
     clear_text_frame(text_frame)
-    if new_text == None:
+    if new_text is None:
         new_text = ''
 
     style_paragraph = text_frame.paragraphs[0]
@@ -79,13 +80,12 @@ def replace_table_data_raw(shape: GraphicFrame, data: RawDataType):
     for r_idx, row in enumerate(shape.table.rows):
         try:
             record = records[r_idx]
-        except IndexError as _:
-            record = [None for _ in range(len(row.cells))]
-        print(record)
+        except IndexError:
+            record = list(repeat(None, len(row.cells)))
         for c_idx, cell in enumerate(row.cells):
             try:
                 value = record[c_idx]
-            except IndexError as _:
+            except IndexError:
                 value = ''
             replace_text_frame(cell.text_frame, value)
 
