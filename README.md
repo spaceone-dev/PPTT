@@ -45,13 +45,43 @@ create `slide.json` like this
         "table": {
           "table": {
             "data_type": "key_value",
-            "keys": ["Name", "Age", "Hobby", {"name": "Language", "data_key": "language"}],
+            "keys": [
+              "Name",
+              "Age",
+              {
+                "name": "Hobby",
+                "data_key": "hobby"
+              },
+              {
+                "name": {
+                  "value": "Language",
+                  "font": {
+                    "bold": true,
+                    "italic": true,
+                    "underline": true,
+                    "color": "#00F900"
+                  }
+                },
+                "data_key": "language"
+              }
+            ],
             "data": [
-              {"Name": "sinsky", "Age": 28, "Hobby": "programming", "language": "korean"},
-              {"Name": "summer", "Age": 4, "Hobby": "reading", "language": "korean"},
-              {"Name": "emmit", "Age": 30, "Hobby": "lego", "language": "english"},
-              {"Name": "agent", "Age": 20, "Hobby": "hiding", "language": "english"},
-              {"Name": "python", "Age": 38, "Hobby": "making", "language": "python"}
+              {"Name": "sinsky", "Age": 28, "hobby": "programming", "language": "korean"},
+              {"Name": "summer", "Age": 4, "hobby": "reading", "language": "korean"},
+              {"Name": "emmit", "Age": 30, "hobby": "lego", "language": "english"},
+              {"Name": "agent", "Age": 20, "hobby": "hiding", "language": "english"},
+              {
+                "Name": "python",
+                "Age": 38,
+                "hobby": "making",
+                "language": {
+                  "value": "python",
+                  "font": {
+                    "bold": true,
+                    "color": "#FFC107"
+                  }
+                }
+              }
             ]
           }
         }
@@ -85,11 +115,21 @@ create `slide.json` like this
           "table": {
             "data_type": "raw",
             "data": [
-              [null, "1Q", "2Q"],
-              ["Apple", 10, 20],
-              ["Google", 8, 6],
-              ["AWS", 20, 15]
+              [null, "1Q", {"value": "2Q", "font": {"bold": true}}],
+              ["Apple", 10, {"value": 20, "font": {"italic": true}}],
+              ["Google", 8, {"value": 8, "font": {"underline": true}}],
+              ["AWS", 20, {"value": 15, "font": {"color": "00F900"}}]
             ]
+          }
+        },
+        "chart": {
+          "chart": {
+            "data_type": "category_data",
+            "categories": ["Apple", "Google", "AWS"],
+            "series": {
+              "1Q": [10, 8, 20],
+              "2Q": [20, 6, 15]
+            }
           }
         }
       }
@@ -135,3 +175,6 @@ pptt make_ppt master.pptx clone.pptx -i slide.json
 - 0.0.5
     - Bug Fix
         - fix table replace data dose not reset issue
+- 0.0.6
+    - New Feature
+        - change text font style #10

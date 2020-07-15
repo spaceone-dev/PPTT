@@ -8,6 +8,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class TextReplaceTestCase(PPTTTestCase):
+    # debug = True
+    # temp_dir = BASE_DIR
     master_slide = os.path.join(BASE_DIR, 'text_replace.pptx')
 
     def test_replace_text(self):
@@ -18,8 +20,8 @@ class TextReplaceTestCase(PPTTTestCase):
         # check placeholder exists
         title_shape_name = 'title'
         body_shape_name = 'body'
-        self.assertTrue([s for s in origin_slide.shapes if s.name == title_shape_name][0])
-        self.assertTrue([s for s in origin_slide.shapes if s.name == body_shape_name][0])
+        self.assertTrue(self.find_shape(origin_slide, title_shape_name))
+        self.assertTrue(self.find_shape(origin_slide, body_shape_name))
 
         input = [
             {
@@ -54,8 +56,8 @@ class TextReplaceTestCase(PPTTTestCase):
         # check placeholder exists
         title_shape_name = "TITLE@@ AB"
         body_shape_name = "This is Body"
-        self.assertTrue([s for s in origin_slide.shapes if s.name == title_shape_name][0])
-        self.assertTrue([s for s in origin_slide.shapes if s.name == body_shape_name][0])
+        self.assertTrue(self.find_shape(origin_slide, title_shape_name))
+        self.assertTrue(self.find_shape(origin_slide, body_shape_name))
 
         input = [
             {
@@ -84,7 +86,7 @@ class TextReplaceTestCase(PPTTTestCase):
 
 
 class TableReplaceTestCase(PPTTTestCase):
-    # deubg = True
+    # debug = True
     # temp_dir = BASE_DIR
 
     master_slide = os.path.join(BASE_DIR, 'table_replace.pptx')
@@ -96,7 +98,7 @@ class TableReplaceTestCase(PPTTTestCase):
         origin_slide = ms.slides[real_slide_pos]
         # check placeholder exists
         shape_name = 'table'
-        self.assertTrue([s for s in origin_slide.shapes if s.name == shape_name][0])
+        self.assertTrue(self.find_shape(origin_slide, shape_name))
 
         input = [
             {
@@ -143,7 +145,7 @@ class TableReplaceTestCase(PPTTTestCase):
         origin_slide = ms.slides[real_slide_pos]
         # check placeholder exists
         shape_name = 'table'
-        self.assertTrue([s for s in origin_slide.shapes if s.name == shape_name][0])
+        self.assertTrue(self.find_shape(origin_slide, shape_name))
 
         input = [
             {
@@ -185,7 +187,7 @@ class TableReplaceTestCase(PPTTTestCase):
         origin_slide = ms.slides[real_slide_pos]
         # check placeholder exists
         shape_name = 'table'
-        self.assertTrue([s for s in origin_slide.shapes if s.name == shape_name][0])
+        self.assertTrue(self.find_shape(origin_slide, shape_name))
 
         input = [
             {
@@ -233,7 +235,7 @@ class TableReplaceTestCase(PPTTTestCase):
         origin_slide = ms.slides[real_slide_pos]
         # check placeholder exists
         shape_name = 'table'
-        self.assertTrue([s for s in origin_slide.shapes if s.name == shape_name][0])
+        self.assertTrue(self.find_shape(origin_slide, shape_name))
 
         input = [
             {

@@ -23,6 +23,7 @@ jobs:
         run: |
           flake8 . --count --show-source --statistics
       - name: Test with pytest
-        run: pytest
+        run: |
+          pytest --cov-report=xml --cov=src/PPTT
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
