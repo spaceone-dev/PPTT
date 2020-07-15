@@ -18,7 +18,7 @@ class CategoryChartDataTestCase(PPTTTestCase):
         origin_slide = ms.slides[real_slide_pos]
         # check placeholder exists
         shape_name = 'bar_chart'
-        self.assertTrue([s for s in origin_slide.shapes if s.name == shape_name][0])
+        self.assertTrue(self.find_shape(origin_slide, shape_name))
 
         input = [
             {
@@ -53,7 +53,7 @@ class CategoryChartDataTestCase(PPTTTestCase):
         real_slide_pos = slide_pos - 1
         origin_slide = ms.slides[real_slide_pos]
         # check placeholder exists
-        self.assertTrue([s for s in origin_slide.shapes if s.name == shape_name][0])
+        self.assertTrue(self.find_shape(origin_slide, shape_name))
 
         input = [
             {
@@ -118,7 +118,7 @@ class XYChartDataTestCase(PPTTTestCase):
         real_slide_pos = slide_pos - 1
         origin_slide = ms.slides[real_slide_pos]
         # check placeholder exists
-        self.assertTrue([s for s in origin_slide.shapes if s.name == shape_name][0])
+        self.assertTrue(self.find_shape(origin_slide, shape_name))
 
         input = [
             {
@@ -190,7 +190,7 @@ class BubbleChartDataTestCase(PPTTTestCase):
         real_slide_pos = slide_pos - 1
         origin_slide = ms.slides[real_slide_pos]
         # check placeholder exists
-        self.assertTrue([s for s in origin_slide.shapes if s.name == shape_name][0])
+        self.assertTrue(self.find_shape(origin_slide, shape_name))
 
         input = [
             {
@@ -246,7 +246,6 @@ class BubbleChartDataTestCase(PPTTTestCase):
                     "size": size_values.pt_v(idx)
                 } for idx in range(len(ser.values))
             ]
-        print(series_values)
         self.assertEqual(chart_series, series_values)
 
     def test_use_buble_data_chart(self):
