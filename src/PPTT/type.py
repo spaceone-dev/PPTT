@@ -9,6 +9,21 @@ Text = TypeVar('Text', int, str)
 Number = TypeVar('Number', float, int)
 
 
+class FontDataType(TypedDict):
+    color: Optional[str]
+    bold: Optional[bool]
+    italic: Optional[bool]
+    underline: Optional[bool]
+
+
+class TextStyleType(TypedDict):
+    value: Text
+    font: Optional[FontDataType]
+
+
+TextFrameValue = Union[Text, TextStyleType]
+
+
 class KVKeyType(TypedDict):
     name: Text
     data_key: Text
@@ -19,11 +34,11 @@ KVKeys = List[Union[Text, KVKeyType]]
 
 class KeyValueDataType(DataType):
     keys: KVKeys
-    data: List[Dict[Text, Text]]
+    data: List[Dict[Text, TextFrameValue]]
 
 
 class RawDataType(DataType):
-    data: List[List[Text]]
+    data: List[List[TextFrameValue]]
 
 
 class ChartDataType(DataType):

@@ -1,14 +1,16 @@
+import logging
 from itertools import repeat
-from typing import List, Callable, Dict
+from typing import List, Callable, Dict, Union
 
 from pptx.chart.data import CategoryChartData, XyChartData, BubbleChartData
 from pptx.compat import to_unicode
+from pptx.dml.color import RGBColor
 from pptx.enum.dml import MSO_COLOR_TYPE
 from pptx.shapes.graphfrm import GraphicFrame
-from pptx.text.text import TextFrame
+from pptx.text.text import TextFrame, _Run, _Paragraph
 
-from .type import KeyValueDataType, CategoryDataType, KVKeys, ChartDataType, ChartDataTypes, Text, XYDataType, \
-    BubbleDataType, RawDataType
+from .type import KeyValueDataType, CategoryDataType, KVKeys, ChartDataType, ChartDataTypes, XYDataType, \
+    BubbleDataType, RawDataType, TextFrameValue, TextStyleType
 from .utils import find_shape, find_shape_by_slide_layout
 
 
@@ -26,7 +28,7 @@ def replace_paragraphs_text(paragraph, new_text):
     paragraph.runs[0].text = new_text
 
 
-def replace_run_style(style_run, target_run):
+def copy_font_style(style_run, target_run):
     target_run.font.name = style_run.font.name
     target_run.font.size = style_run.font.size
     target_run.font.bold = style_run.font.bold
@@ -42,12 +44,13 @@ def replace_run_style(style_run, target_run):
             target_run.font.color.brightness = style_run.font.color.brightness
 
 
-def replace_paragraph_style(style_paragraph, target_paragraph):
+def copy_paragraph_style(style_paragraph, target_paragraph):
     style_paragraph.alignment = target_paragraph.alignment
     style_paragraph.level = target_paragraph.level
     style_paragraph.line_spacing = target_paragraph.line_spacing
     style_paragraph.space_after = target_paragraph.space_after
     style_paragraph.space_before = target_paragraph.space_before
+    copy_font_style(style_paragraph, target_paragraph)
 
 
 def clear_text_frame(text_frame: TextFrame, all: bool = False):
@@ -57,22 +60,37 @@ def clear_text_frame(text_frame: TextFrame, all: bool = False):
         text_frame._txBody.remove(p)
 
 
-def replace_text_frame(text_frame: TextFrame, new_text: Text):
+def replace_font_style(subshape: Union[_Run, _Paragraph], text_frame_data: TextStyleType):
+    if font_style := text_frame_data.get('font'):
+        if font_color := font_style.get('color'):
+            # font_color value must be hex cololr ex) #ffffff
+            subshape.font.color.rgb = RGBColor.from_string(font_color[1:])
+        if isinstance(font_style.get('bold'), bool):
+            subshape.font.bold = font_style.get('bold')
+        if isinstance(font_style.get('italic'), bool):
+            subshape.font.italic = font_style.get('italic')
+        if isinstance(font_style.get('underline'), bool):
+            subshape.font.underline = font_style.get('underline')
+
+
+def replace_text_frame(text_frame: TextFrame, text_frame_data: TextFrameValue):
     clear_text_frame(text_frame)
+    new_text = text_frame_data.get('value') if isinstance(text_frame_data, dict) else text_frame_data
     if new_text is None:
         new_text = ''
 
     style_paragraph = text_frame.paragraphs[0]
     style_run = style_paragraph.runs[0] if len(style_paragraph.runs) else style_paragraph.add_run()
+    if isinstance(text_frame_data, dict):  # if value type is TextStyleType
+        replace_font_style(style_paragraph, text_frame_data)
+        replace_font_style(style_run, text_frame_data)
 
     split_text = to_unicode(f"{new_text}").split('\n')
-    if split_text:
-        replace_paragraphs_text(text_frame.paragraphs[0], split_text[0])
-        for text in split_text[1:]:
-            p = text_frame.add_paragraph()
-            replace_paragraph_style(style_paragraph, p)
-            replace_paragraphs_text(p, text)
-            replace_run_style(style_run, p.runs[0])
+    for line_num, line_text in enumerate(split_text):
+        paragraph = text_frame.add_paragraph() if line_num != 0 else text_frame.paragraphs[0]
+        replace_paragraphs_text(paragraph, line_text)
+        copy_paragraph_style(style_paragraph, paragraph)
+        copy_font_style(style_run, paragraph.runs[0])
 
 
 def replace_table_data_raw(shape: GraphicFrame, data: RawDataType):
@@ -166,9 +184,10 @@ def replace_data(slide, contents: dict, mode="replace"):
                     data_type = table_data.get('data_type', 'raw')
                     TABLE_DATA_TYPE_HANDLER[data_type](shape, table_data)
                 except Exception as e:
-                    print(e)
+                    logging.exception(e)
+
             elif chart_data := data.get('chart'):
                 try:
                     replace_chart_data(shape, chart_data)
                 except Exception as e:
-                    print(e)
+                    logging.exception(e)
