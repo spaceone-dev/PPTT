@@ -1,8 +1,6 @@
 import os
 from typing import List
 
-from pptx.dml.color import RGBColor
-
 from .testcase import PPTTTestCase
 from ...PPTT.ppt import make_ppt
 
@@ -10,6 +8,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class TextReplaceTestCase(PPTTTestCase):
+    # debug = True
+    # temp_dir = BASE_DIR
     master_slide = os.path.join(BASE_DIR, 'text_replace.pptx')
 
     def test_replace_text(self):
@@ -86,7 +86,7 @@ class TextReplaceTestCase(PPTTTestCase):
 
 
 class TableReplaceTestCase(PPTTTestCase):
-    # deubg = True
+    # debug = True
     # temp_dir = BASE_DIR
 
     master_slide = os.path.join(BASE_DIR, 'table_replace.pptx')

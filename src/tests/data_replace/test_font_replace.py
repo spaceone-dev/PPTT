@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class TextFontReplaceTestCase(PPTTTestCase):
-    # deubg = True
+    # debug = True
     # temp_dir = BASE_DIR
     master_slide = os.path.join(BASE_DIR, 'text_font_replace.pptx')
 
@@ -219,8 +219,8 @@ class TextFontReplaceTestCase(PPTTTestCase):
 
 
 class TableFontReplaceTestCase(PPTTTestCase):
-    deubg = True
-    temp_dir = BASE_DIR
+    # debug = True
+    # temp_dir = BASE_DIR
 
     master_slide = os.path.join(BASE_DIR, 'text_font_replace.pptx')
 
@@ -272,6 +272,7 @@ class TableFontReplaceTestCase(PPTTTestCase):
                 }
             }
         ]
+
         make_ppt(self.master_slide, self.target_slide, input)
         ppt = self.get_target_ppt()
         slide = ppt.slides[real_slide_pos]
@@ -331,11 +332,6 @@ class TableFontReplaceTestCase(PPTTTestCase):
         make_ppt(self.master_slide, self.target_slide, input)
         ppt = self.get_target_ppt()
         slide = ppt.slides[real_slide_pos]
-        self.assertEqual(1, len(slide.shapes))
-
-        table_data = input[0]['contents'][shape_name]['table']['data']
-        # change int to text
-        origin_table_data = [[f"{cell}" for cell in row] for row in table_data]
 
         table_shape = self.find_shape(slide, shape_name)
         color_text, bold_text, underline_text, italic_text = (cell.text_frame.paragraphs[0].runs[0].font for

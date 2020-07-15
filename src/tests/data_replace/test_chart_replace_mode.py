@@ -9,6 +9,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class CategoryChartDataTestCase(PPTTTestCase):
+    # debug = True
+    # temp_dir = BASE_DIR
     master_slide = os.path.join(BASE_DIR, 'chart_replace.pptx')
 
     def test_chart_title_text(self):
@@ -109,7 +111,7 @@ class CategoryChartDataTestCase(PPTTTestCase):
 
 
 class XYChartDataTestCase(PPTTTestCase):
-    # deubg = True
+    # debug = True
     # temp_dir = BASE_DIR
     master_slide = os.path.join(BASE_DIR, 'chart_replace.pptx')
 
@@ -181,8 +183,8 @@ class XYChartDataTestCase(PPTTTestCase):
 
 
 class BubbleChartDataTestCase(PPTTTestCase):
-    deubg = True
-    temp_dir = BASE_DIR
+    # debug = True
+    # temp_dir = BASE_DIR
     master_slide = os.path.join(BASE_DIR, 'chart_replace.pptx')
 
     def check_chart_data(self, slide_pos, shape_name):
