@@ -93,7 +93,7 @@
               [null, "1Q", {"value": "2Q", "font": {"bold": true}}],
               ["Apple", 10, {"value": 20, "font": {"italic": true}}],
               ["Google", 8, {"value": 8, "font": {"underline": true}}],
-              ["AWS", 20, {"value": 15, "font": {"color": "00F900"}}]
+              ["AWS", 20, {"value": 15, "font": {"color": "#00F900"}}]
             ]
           }
         },
