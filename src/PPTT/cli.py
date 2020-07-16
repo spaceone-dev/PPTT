@@ -5,7 +5,7 @@ from pprint import pprint
 import click
 from pptx import Presentation
 
-from PPTT.type import InputDataType
+from PPTT.type import InputData
 from .parser import parser
 from .ppt import make_ppt
 from .schema import PPTTemplate
@@ -17,7 +17,7 @@ def cli():
     pass
 
 
-def get_input_file(input_file_path: str) -> InputDataType:
+def get_input_file(input_file_path: str) -> InputData:
     with open(input_file_path, mode='r') as fp:
         raw = json.load(fp)
         if isinstance(raw, list):

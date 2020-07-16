@@ -3,3 +3,4 @@ click>=7.1.2
 marshmallow==3.6.1
 ast_decompiler==0.4.0
 python-slugify==4.0.1
+dacite==1.5.1

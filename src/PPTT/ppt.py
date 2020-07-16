@@ -1,14 +1,15 @@
-from typing import List
+from typing import List, Union, Dict
 
 from pptx import Presentation
 
 from .replace import replace_data
 from .schema import SlideStub
+from .type import ReplaceSlideType
 
 
 def make_ppt(
         master_file: str, target_file: str,
-        pages: List[dict], delete_pages: List[int] = None,
+        pages: List[Union[Dict, ReplaceSlideType]], delete_pages: List[int] = None,
         mode: str = "replace"):
     master_pt = Presentation(master_file)
     for page in pages:
@@ -16,10 +17,12 @@ def make_ppt(
             slide_layout = master_pt.slide_layouts.get_by_name(page['slide_name'])
             slide = master_pt.slides.add_slide(slide_layout)
         elif mode == 'replace':
-            slide = master_pt.slides[int(page['slide_pos']) - 1]
+            if isinstance(page, dict):
+                page = ReplaceSlideType.from_dict(page)
+            slide = master_pt.slides[int(page.slide_pos) - 1]
         else:
             raise NotImplementedError(f"doesn't support {mode} mode")
-        replace_data(slide, page.get('contents'))
+        replace_data(slide, page.contents)
 
     master_pt.save(target_file)
 
