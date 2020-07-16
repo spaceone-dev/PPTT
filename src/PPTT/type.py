@@ -26,16 +26,16 @@ Number = Union[int, float]
 
 @dataclass
 class FontData(BaseSchema):
-    color: Optional[str]
-    bold: Optional[bool]
-    italic: Optional[bool]
-    underline: Optional[bool]
+    color: Optional[str] = None
+    bold: Optional[bool] = None
+    italic: Optional[bool] = None
+    underline: Optional[bool] = None
 
 
 @dataclass
 class TextStyle(BaseSchema):
     value: Text
-    font: Optional[FontData]
+    font: Optional[FontData] = None
 
 
 TextFrameDataType = Union[int, str, float, TextStyle]
@@ -83,14 +83,14 @@ TableDataTypeHint = Union[RawData, KeyValueData]
 
 @dataclass
 class ChartDataType(DataType):
-    title: Optional[Text]
+    title: Optional[Text] = None
 
 
 @dataclass
 class CategoryData(ChartDataType):
-    number_format: Optional[str]
     categories: List[Text] = field(default_factory=list)
     series: Dict[Text, List[int]] = field(default_factory=dict)
+    number_format: Optional[str] = None
 
     def __post_init__(self):
         self.data_type = 'category_data'
@@ -104,8 +104,8 @@ class XYPoint(BaseSchema):
 
 @dataclass
 class XYData(ChartDataType):
-    number_format: Optional[str]
-    series: Dict[Text, List[XYPoint]]
+    series: Dict[Text, List[XYPoint]] = field(default_factory=list)
+    number_format: Optional[str] = None
 
     def __post_init__(self):
         self.data_type = 'xy_data'
@@ -118,8 +118,8 @@ class BubblePoint(XYPoint):
 
 @dataclass
 class BubbleData(ChartDataType):
-    number_format: Optional[str]
-    series: Dict[Text, List[BubblePoint]]
+    series: Dict[Text, List[BubblePoint]] = field(default_factory=list)
+    number_format: Optional[str] = None
 
     def __post_init__(self):
         self.data_type = 'bubble_data'
@@ -145,6 +145,24 @@ class ChartData(BaseSchema):
         chart = change_data['chart']
         change_data['chart'] = ChartDataTypeMap[chart['data_type']].from_dict(chart)
         return from_dict(data_class=cls, data=change_data, **kwargs)
+
+
+@dataclass
+class ChartXYData(ChartData):
+    # using in stub
+    chart: XYData
+
+
+@dataclass
+class ChartCategoryData(ChartData):
+    # using in stub
+    chart: CategoryData
+
+
+@dataclass
+class ChartBubbleData(ChartData):
+    # using in stub
+    chart: BubbleData
 
 
 @dataclass

@@ -1,4 +1,5 @@
 import logging
+from dataclasses import dataclass, is_dataclass
 from itertools import repeat
 from typing import List, Callable, Dict, Union
 
@@ -75,7 +76,7 @@ def replace_font_style(subshape: Union[_Run, _Paragraph], text_frame_data: TextS
 
 def replace_text_frame(text_frame: TextFrame, text_frame_data: TextFrameDataType):
     clear_text_frame(text_frame)
-    new_text = text_frame_data.get('value') if isinstance(text_frame_data, dict) else text_frame_data
+    new_text = text_frame_data.value if isinstance(text_frame_data, TextStyle) else text_frame_data
     if new_text is None:
         new_text = ''
 
@@ -168,11 +169,18 @@ def replace_chart_data(shape: GraphicFrame, chart_data: ChartDataTypeHints):
         replace_text_frame(shape.chart.chart_title.text_frame, chart_data.title)
 
 
-def replace_data(slide, contents: SlideContentsType, mode="replace"):
-    for name, data in contents.items():
-        print(name, data)
+def replace_data(slide, contents: Union[SlideContentsType, dataclass], mode="replace"):
+    _contents = []
+
+    if isinstance(contents, dict):
+        _contents = contents.items()
+    elif is_dataclass(contents):
+        _contents = ((name, getattr(contents, name, None)) for name in contents.__dataclass_fields__.keys())
+    else:
+        raise ValueError('un support type')
+    for name, data in _contents:
         shape = find_shape(slide, name) if mode == 'replace' else find_shape_by_slide_layout(slide, name)
-        if shape:
+        if shape and data:
             # shape.name = name # for
             if isinstance(data, TextData):
                 replace_text_frame(shape.text_frame, data.text)

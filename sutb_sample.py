@@ -1,22 +1,33 @@
-from marshmallow import fields
+from dataclasses import dataclass, field
+from typing import Optional
 
-from PPTT.schema import SlideStub
-
-
-class TitleSlide(SlideStub):
-    title = fields.Str()
-    subtitle = fields.Str()
-    date = fields.Str()
+from PPTT.type import SlideData, TextData, ChartData, TableData
 
 
-class ChartInit(SlideStub):
-    _slide_layout_name = 'asb'
-    title = fields.Str()
-    chart = fields.Str()
-    text = fields.Str()
+@dataclass
+class Slide1Content:
+    title: Optional[TextData] = field(default=None)
+    subtitle: Optional[TextData] = field(default=None)
+    date: Optional[TextData] = field(default=None)
 
 
-SLIDES = {
-    "title slide": TitleSlide,
-    "chart init": ChartInit
-}
+@dataclass
+class Slide1(SlideData):
+    contents: Optional[Slide1Content]
+    slide_pos: int = 1
+
+
+@dataclass
+class Slide2Content:
+    title: Optional[TextData]
+    chart: Optional[ChartData]
+    table: Optional[TableData]
+
+
+@dataclass
+class Slide2(SlideData):
+    slide_pos = 2
+    contents: Optional[Slide2Content]
+
+
+SLIDES = [Slide1, Slide2]

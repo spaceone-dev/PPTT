@@ -3,19 +3,17 @@ from typing import List, Union, Dict
 from pptx import Presentation
 
 from .replace import replace_data
-from .schema import SlideStub
-from .type import ReplaceSlideType
+from .type import ReplaceSlideType, SlideData
 
 
 def make_ppt(
         master_file: str, target_file: str,
-        pages: List[Union[Dict, ReplaceSlideType]], delete_pages: List[int] = None,
+        pages: List[Union[Dict, ReplaceSlideType, SlideData]], delete_pages: List[int] = None,
         mode: str = "replace"):
     master_pt = Presentation(master_file)
     for page in pages:
         if mode == 'template':
-            slide_layout = master_pt.slide_layouts.get_by_name(page['slide_name'])
-            slide = master_pt.slides.add_slide(slide_layout)
+            raise NotImplementedError("doesn't support Template mode")
         elif mode == 'replace':
             if isinstance(page, dict):
                 page = ReplaceSlideType.from_dict(page)
@@ -23,15 +21,5 @@ def make_ppt(
         else:
             raise NotImplementedError(f"doesn't support {mode} mode")
         replace_data(slide, page.contents)
-
-    master_pt.save(target_file)
-
-
-def make_ppt_from_stub(master_file: str, target_file: str, pages: List[SlideStub]):
-    master_pt = Presentation(master_file)
-    for page in pages:
-        slide_layout = master_pt.slide_layouts.get_by_name(page._slide_layout_name)
-        slide = master_pt.slides.add_slide(slide_layout)
-        replace_data(slide, page.get_contents())
 
     master_pt.save(target_file)

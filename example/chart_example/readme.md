@@ -9,8 +9,9 @@
 ## make page!
 create `slide.json`
 
-## make ppt!
-```shell script
+## make pptx
+```python
+slides = []
 pptt make_ppt master.pptx clone.pptx -i slide.json
 ```
 
