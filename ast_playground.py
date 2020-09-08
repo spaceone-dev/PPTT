@@ -1,7 +1,7 @@
 import ast
 import os
-from ast import Module, ImportFrom, ClassDef, alias, Load, Name, Store, Assign, Constant, Subscript, Index, AnnAssign, \
-    List
+from ast import AnnAssign, Assign, ClassDef, Constant, ImportFrom, Index, List, Load, Module, Name, Store, Subscript, \
+    alias
 
 from ast_decompiler import decompile
 
@@ -148,7 +148,7 @@ clone = Module(
 if __name__ == '__main__':
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    target = os.path.join(BASE_DIR,'sutb_sample.py')
+    target = os.path.join(BASE_DIR, 'stub_sample.py')
     with open(target, mode='r') as fp:
         data = fp.read()
     at = ast.parse(data)

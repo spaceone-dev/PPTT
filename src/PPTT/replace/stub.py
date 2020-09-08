@@ -1,13 +1,13 @@
 import re
-from ast import Module, ImportFrom, Pass, alias, Assign, Name, Store, List, Load, Subscript, Index, ClassDef, Constant, \
-    AnnAssign, keyword, Call
+from ast import AnnAssign, Assign, Call, ClassDef, Constant, ImportFrom, Index, List, Load, Module, Name, Pass, Store, \
+    Subscript, alias, keyword
 
 from ast_decompiler import decompile
 from pptx import Presentation
 from pptx.enum.chart import XL_CHART_TYPE
 from pptx.shapes.graphfrm import GraphicFrame
 from pptx.shapes.shapetree import SlideShapes
-from pptx.slide import Slides, Slide
+from pptx.slide import Slide, Slides
 
 from ..utils import name_to_slugify
 
@@ -158,10 +158,18 @@ def make_slide_class(slide: Slide, slide_index: int) -> list:
         note = slide.notes_slide.notes_text_frame.text
         if note_name_regx.match(note):
             name = note_name_regx.search(note).group('name')
-            alias_slide_class = ClassDef(name=f'{name}Slide', bases=[Name(id=slide_class_name, ctx=Load())], keywords=[],
-                                     body=[Pass()], decorator_list=[])
-            alias_content_class = ClassDef(name=f'{name}Content', bases=[Name(id=content_class_name, ctx=Load())], keywords=[],
-                                       body=[Pass()], decorator_list=[])
+            alias_slide_class = ClassDef(
+                name=f'{name}Slide', bases=[Name(id=slide_class_name, ctx=Load())],
+                keywords=[],
+                body=[Pass()],
+                decorator_list=[],
+            )
+            alias_content_class = ClassDef(
+                name=f'{name}Content', bases=[Name(id=content_class_name, ctx=Load())],
+                keywords=[],
+                body=[Pass()],
+                decorator_list=[],
+            )
             klass += [alias_slide_class, alias_content_class]
     return klass
 
