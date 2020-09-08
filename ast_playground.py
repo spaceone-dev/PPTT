@@ -1,4 +1,5 @@
 import ast
+import os
 from ast import Module, ImportFrom, ClassDef, alias, Load, Name, Store, Assign, Constant, Subscript, Index, AnnAssign, \
     List
 
@@ -145,7 +146,9 @@ clone = Module(
 )
 
 if __name__ == '__main__':
-    target = '/Users/mzc01-sinsky/code/PPTT/sutb_sample.py'
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    target = os.path.join(BASE_DIR,'sutb_sample.py')
     with open(target, mode='r') as fp:
         data = fp.read()
     at = ast.parse(data)

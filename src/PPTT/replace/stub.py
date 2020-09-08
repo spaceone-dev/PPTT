@@ -1,4 +1,5 @@
-from ast import Module, ImportFrom, alias, Assign, Name, Store, List, Load, Subscript, Index, ClassDef, Constant, \
+import re
+from ast import Module, ImportFrom, Pass, alias, Assign, Name, Store, List, Load, Subscript, Index, ClassDef, Constant, \
     AnnAssign, keyword, Call
 
 from ast_decompiler import decompile
@@ -125,10 +126,13 @@ def make_slide_content_class(name: str, shapes: SlideShapes):
     )
 
 
+note_name_regx = re.compile(r"^name:\s{0,3}(?P<name>[a-zA-Z0-9_]*)\s*\n?")
+
+
 def make_slide_class(slide: Slide, slide_index: int) -> list:
     slide_class_name = f"Slide{slide_index}"
     content_class_name = f"{slide_class_name}Content"
-    return [
+    klass = [
         make_slide_content_class(content_class_name, slide.shapes),
         ClassDef(
             name=slide_class_name,
@@ -150,6 +154,16 @@ def make_slide_class(slide: Slide, slide_index: int) -> list:
             ],
             decorator_list=[dataclass_decorator]),
     ]
+    if slide.has_notes_slide:
+        note = slide.notes_slide.notes_text_frame.text
+        if note_name_regx.match(note):
+            name = note_name_regx.search(note).group('name')
+            alias_slide_class = ClassDef(name=f'{name}Slide', bases=[Name(id=slide_class_name, ctx=Load())], keywords=[],
+                                     body=[Pass()], decorator_list=[])
+            alias_content_class = ClassDef(name=f'{name}Content', bases=[Name(id=content_class_name, ctx=Load())], keywords=[],
+                                       body=[Pass()], decorator_list=[])
+            klass += [alias_slide_class, alias_content_class]
+    return klass
 
 
 def generate_ast(slides: Slides) -> Module:

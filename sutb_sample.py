@@ -30,4 +30,10 @@ class Slide2(SlideData):
     contents: Optional[Slide2Content]
 
 
+class EC2Slide2(Slide2):
+    pass
+
+class EC2Slide2Content(Slide2Content):
+    pass
+
 SLIDES = [Slide1, Slide2]
