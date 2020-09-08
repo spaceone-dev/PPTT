@@ -1,17 +1,17 @@
 import logging
 from dataclasses import dataclass, is_dataclass
 from itertools import repeat
-from typing import List, Callable, Dict, Union
+from typing import Callable, Dict, List, Union
 
-from pptx.chart.data import CategoryChartData, XyChartData, BubbleChartData
+from pptx.chart.data import BubbleChartData, CategoryChartData, XyChartData
 from pptx.compat import to_unicode
 from pptx.dml.color import RGBColor
 from pptx.enum.dml import MSO_COLOR_TYPE
 from pptx.shapes.graphfrm import GraphicFrame
-from pptx.text.text import TextFrame, _Run, _Paragraph
+from pptx.text.text import TextFrame, _Paragraph, _Run
 
-from ..type import KeyValueData, CategoryData, KVKeys, ChartData, ChartDataTypeHints, XYData, \
-    BubbleData, RawData, TextFrameDataType, TextStyle, KVKey, SlideContentsType, TextData, TableData
+from ..type import BubbleData, CategoryData, ChartData, ChartDataTypeHints, KVKey, KVKeys, KeyValueData, RawData, \
+    SlideContentsType, TableData, TextData, TextFrameDataType, TextStyle, XYData
 from ..utils import find_shape, find_shape_by_slide_layout
 
 

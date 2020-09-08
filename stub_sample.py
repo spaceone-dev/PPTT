@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
-from PPTT.type import SlideData, TextData, ChartData, TableData
+from PPTT.type import ChartData, SlideData, TableData, TextData
 
 
 @dataclass
@@ -28,6 +28,14 @@ class Slide2Content:
 class Slide2(SlideData):
     slide_pos = 2
     contents: Optional[Slide2Content]
+
+
+class EC2Slide2(Slide2):
+    pass
+
+
+class EC2Slide2Content(Slide2Content):
+    pass
 
 
 SLIDES = [Slide1, Slide2]

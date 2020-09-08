@@ -282,3 +282,7 @@ if __name__ == '__main__':
 - 0.0.7
     - New Feature
         - make slide stub for python api
+        
+- 0.0.8
+    - New Feature
+        - now you can give alias to stub class [example](https://github.com/spaceone-dev/PPTT/tree/master/example/stub_alias)
