@@ -75,7 +75,6 @@ class DeleteSlideTestCase(PPTTTestCase):
         for slide_id in delete_slides_id:
             self.assertIsNone(ppt.slides.get(slide_id))
 
-
     def test_delete_slide_complex(self):
         ms = self.get_master_ppt()
         before_total_slide = len(ms.slides)
